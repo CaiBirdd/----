@@ -9,6 +9,7 @@ function debounce(fn, wait) {
     clearTimeout(timer)
     
     // 箭头函数通过词法作用域向上寻找，自动绑定外层(return的那个函数)的 this
+    //让 fn 内部的 this 指向当前环境的 this 当前环境是箭头函数 没有自己的this 所以会指向外层的this 也就是调用它的那个
     timer = setTimeout(() => {
       //确保指向的是调用的 比如这个函数是作为DOM时间回调触发，this就指向那个DOM元素
       fn.apply(this, args)
@@ -16,13 +17,12 @@ function debounce(fn, wait) {
   }
 }
 } */
-function debounce (fn,wait){
+function debounce(fn, wait) {
   let timer = null
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timer)
-    timer = setTimeout(()=>{
-      fn.apply(this,args)
-    },wait)
+    timer = setTimeout(() => {
+      fn.apply(this, args)
+    }, wait)
   }
 }
-

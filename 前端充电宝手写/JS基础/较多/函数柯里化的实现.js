@@ -12,11 +12,21 @@ function curry(fn, ...args) {
     return (...newArgs) => curry(fn, ...args, ...newArgs)
   }
 }
+  fn：要被柯里化的原函数
+  ...args：第一次调用 curry 时，顺便传进来的参数（可选）
+  ...args 叫“剩余参数”，会把多余参数收集成数组。
+  (...newArgs) => ...：返回一个函数，等待下一次调用传入更多参数
+  这个新函数里又调用 curry：
+  ...args：之前收集的参数
+  ...newArgs：这次新传入的参数
+  组合成“累计参数”，递归地继续判断够不够。
+  因为返回的箭头函数形成了闭包，它捕获了外层的 args。
+
 */
-function curry(fn, ...args){
-  if(args.length >= fn.length){
+function curry(fn, ...args) {
+  if (args.length >= fn.length) {
     return fn(...args)
   } else {
-    return (...newArgs) => curry(fn, ...args ,...newArgs)
+    return (...newArgs) => curry(fn, ...args, ...newArgs)
   }
 }

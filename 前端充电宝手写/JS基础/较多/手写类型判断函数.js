@@ -11,13 +11,13 @@ function getType(value) {
     ? Object.prototype.toString.call(value).slice(8, -1).toLowerCase() 
     : typeof value
 }
-} */
-
+} 
+*/
 function getType(value) {
   //返回字符串
-  if(value === null || value === undefined) return String(value)
+  if (value === null || value === undefined) return String(value)
   //typeof遇上函数时会返回function
   return typeof value === 'object' || typeof value === 'function'
-  ? Object.prototype.toString.call(value).slice(8,-1).toLowerCase()
-  : typeof value
+    ? Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
+    : typeof value
 }
