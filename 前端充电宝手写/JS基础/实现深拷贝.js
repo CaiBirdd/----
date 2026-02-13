@@ -50,6 +50,7 @@ function deepClone(target, map = new Map()) {
   //hasOwnProperty的作用是：判断一个属性是不是你自己“亲生”的 如果是继承的就不拷贝
   //call是让this指向target
   for (const key in target) {
+  //这行的作用就是判断属性key 是不是 target 身上自带的属性
     if (Object.prototype.hasOwnProperty.call(target, key)) {
       cloneTarget[key] = deepClone(target[key], map)
     }
@@ -61,23 +62,24 @@ function deepClone(target, map = new Map()) {
 Key (钥匙)：是 原对象 (target)。
 Value (值)：是 拷贝后的新对象 (cloneTarget)。
 */
-function deepClone(target,map = new Map()){
+function deepClone(target, map = new Map()) {
   //如果传进来的target是null或者不是对象，比如数字、字符串、布尔值等 没有深拷贝的必要，直接返回
-  if(target === null || typeof target !== 'object'){
+  if (target === null || typeof target !== 'object') {
     return target
   }
   //处理循环引用 如果拷贝过这个target对象，直接把上次拷贝好的传出
-  if(map.has(target)){
+  if (map.has(target)) {
     return map.get(target)
   }
   //根据target是数组还是对象，创建一个空的
   const cloneTarget = Array.isArray(target) ? [] : {}
   //登记，target对应的是cloneTarget
-  map.set(target,cloneTarget)
+  map.set(target, cloneTarget)
   //遍历target中的每一个属性key
-  for(const key in target) {
-    if(Object.prototype.hasOwnProperty.call(target,key)){
-      cloneTarget[key] = deepClone(target[key],map)
+  for (const key in target) {
+    if (Object.prototype.hasOwnProperty.call(target, key)) {
+      //如果是属性继续递归拆，如果不是会在当前代码开头返回
+      cloneTarget[key] = deepClone(target[key], map)
     }
   }
   return cloneTarget

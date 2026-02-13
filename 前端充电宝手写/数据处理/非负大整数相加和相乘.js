@@ -57,33 +57,36 @@ function multiply(num1, num2) {
 */
 
 //a和b都是字符串
-function add(a,b) {
+function add(a, b) {
   //i和j指向a和b的最后一位 也就是个位 carry是进位
-  let i = a.length - 1, j =b.length - 1, carry = 0
+  let i = a.length - 1,
+    j = b.length - 1,
+    carry = 0
   let res = ''
   //有一个满足条件循环就继续
-  while(i>=0 || j>=0 || carry){
-    const sum = carry + (+a[i--] || 0 ) + (+b[j--] || 0)
+  while (i >= 0 || j >= 0 || carry) {
+    const sum = carry + (+a[i--] || 0) + (+b[j--] || 0)
     res = (sum % 10) + res
-    carry = Math.floor(sum/10)
-  } 
+    carry = Math.floor(sum / 10)
+  }
   return res || '0'
 }
 
-function multiply(num1,num2) {
-  if(num1 === '0' || num2 === '0') return '0'
-  const len1 = num1.length, len2 = num2.length
-  const res = new Array(len2+len2).fill(0)
-  for(let j = len1-1; j >= 0; j--){
-    for(let i = len2-1; i >= 0; i--){
-      const sum = res[i+j+1] + num1[i]*num2[j]
+function multiply(num1, num2) {
+  if (num1 === '0' || num2 === '0') return '0'
+  const len1 = num1.length,
+    len2 = num2.length
+  const res = new Array(len1 + len2).fill(0)
+  for (let j = len1 - 1; j >= 0; j--) {
+    for (let i = len2 - 1; i >= 0; i--) {
+      const sum = res[i + j + 1] + num1[i] * num2[j]
       //处理低位
-      res[i+j+1] = sum % 10
+      res[i + j + 1] = sum % 10
       //处理进位
-      res[i+j] += Math.floor(sum/10)
+      res[i + j] += Math.floor(sum / 10)
     }
   }
   //while循环去除行前面的0
-  while(res[0] === 0) res.shift()
+  while (res[0] === 0) res.shift()
   return res.length ? res.join('') : '0'
 }
