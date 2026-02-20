@@ -169,7 +169,7 @@ function formatWithLoop(num) {
       result = ',' + result
     }
   }
-  return decimal ? `${integer}.${decimal}` : result
+  return decimal ? `${result}.${decimal}` : result
 }
 //循环打印红黄绿
 const sleep = (duration) => new Promise((resolve) => setTimeout(resolve, duration))

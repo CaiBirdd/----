@@ -200,7 +200,7 @@ function formatWithloop(num) {
       result = ',' + result
     }
   }
-  return decimal ? `${integer}.${decimal}` : result
+  return decimal ? `${result}.${decimal}` : result
 }
 //循环打印红绿黄
 function sleep(duration) {
