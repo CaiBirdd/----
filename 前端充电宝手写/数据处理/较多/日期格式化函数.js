@@ -46,17 +46,18 @@ const dateFormat = (dateInput, format) => {
 // 结果：Hello JS World (只换了第一个 World)
 console.log(str.replace("World", "JS")); 
 */
-const dateFormat = (dateInput,format)=>{
+const dateFormat = (dateInput, format) => {
   const date = new Date(dateInput)
   const config = {
-    'yyyy': date.getFullYear(),
-    'MM': String(date.getMonth + 1).padStart(2,'0'),
-    'dd': String(date.getDate()).padStart(2,'0'),
-    'HH': String(date.getHours()).padStart(2,'0'),
-    'mm': String(date.getMinutes()).padStart(2,'0'),
-    'ss': String(date.getSeconds()).padStart(2,'0')
+    yyyy: date.getFullYear(),
+    MM: String(date.getMonth + 1).padStart(2, '0'),
+    dd: String(date.getDate()).padStart(2, '0'),
+    HH: String(date.getHours()).padStart(2, '0'),
+    mm: String(date.getMinutes()).padStart(2, '0'),
+    ss: String(date.getSeconds()).padStart(2, '0'),
   }
-  for(const key in config) {
-    format = format.replace(key,config[key])
+  for (const key in config) {
+    format = format.replace(key, config[key])
   }
+  return format
 }

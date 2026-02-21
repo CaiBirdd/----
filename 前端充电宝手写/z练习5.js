@@ -19,16 +19,6 @@ function throttle(fn, delay) {
     }
   }
 }
-function throttle(fn, delay) {
-  let preTime = 0
-  return function (...args) {
-    let now = Date.now()
-    if (now - preTime >= delay) {
-      fn.apply(this, args)
-      preTime = now
-    }
-  }
-}
 //call
 Function.prototype.myCall = function (context, ...args) {
   context = context === null || context === undefined ? window : Object(context)
@@ -69,7 +59,7 @@ function myNew(fn, ...args) {
     return
   }
   const newObj = Object.create(fn.prototype)
-  const result = fn.apply(this, newObj)
+  const result = fn.apply(newObj, args)
   return result instanceof Object ? result : newObj
 }
 //instanceof
@@ -152,7 +142,7 @@ function parseParams(url) {
   if (!queryStr) return {}
   const paramsObj = {}
   queryStr.split('&').forEach((param) => {
-    if (!param.inclides('=')) {
+    if (!param.includes('=')) {
       paramsObj[param] = true
       return
     }
@@ -268,6 +258,68 @@ function dateFormat(dateInput, format) {
   for (const key in config) {
     format = format.replace(key, config[key])
   }
+  return format
 }
 //将 JS 对象转化为树形结构
-function jsonToTree(date) {}
+function jsonToTree(data) {
+  const result = []
+  const map = {}
+  data.forEach((item) => {
+    map[item.id] = item
+  })
+  data.forEach((item) => {
+    const parent = map[item.pid]
+    if (parent) {
+      parent.children || (parent.children = []).push(item)
+    } else {
+      result.push(item)
+    }
+  })
+  return result
+}
+//使用 setTimeout 实现 setInterval
+function mySetInterval(fn, t) {
+  let timer = null
+  function interval() {
+    fn()
+    timer = setTimeout(interval, t)
+  }
+  timer = setTimeout(interval, t)
+  return {
+    cancel: () => clearTimeout(timer),
+  }
+}
+//判断对象是否存在循环引用
+function isCycleObject(obj, parent = []) {
+  if (typeof obj !== 'object' || obj === null) return false
+  if (parent.includes(obj)) return true
+  const newParent = [...parent, obj]
+  for (const key in obj) {
+    if (isCycleObject(obj[key], newParent)) return true
+  }
+  return false
+}
+//发布-订阅模式
+class EventEmitter {
+  constructor() {
+    this.events = {}
+  }
+  on(eventName, callback) {
+    if (!this.events[eventName]) {
+      this.events[eventName] = []
+    }
+    this.events[eventName].push(callback)
+  }
+  emit(eventName, ...args) {
+    const callbacks = this.events[eventName]
+    if (callbacks) {
+      callbacks.forEach((cb) => cb(...args))
+    }
+  }
+  off(eventName, callback) {
+    const callbacks = this.events[eventName]
+    if (callbacks) {
+      this.events[eventName] = callbacks.filter((cb) => cb !== callback)
+    }
+  }
+}
