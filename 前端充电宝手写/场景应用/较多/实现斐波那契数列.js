@@ -37,15 +37,15 @@ const fibonacci = (() => {
 })()
 */
 function fibonacci(n) {
-  if(n<2) return n
+  if (n < 2) return n
   let pre1 = 0
   let pre2 = 1
   let current = 1
-  for(let i=2; i<=n; i++){
+  for (let i = 2; i <= n; i++) {
     current = pre1 + pre2
     pre1 = pre2
     pre2 = current
   }
-  
+
   return current
 }
